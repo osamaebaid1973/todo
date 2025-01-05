@@ -1,34 +1,47 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:todo/screens/lets_go_screen.dart';
-import 'package:todo/theme/light_theme.dart';
-import 'package:todo/theme/theme.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/app_resources/app_routes_names.dart';
+import 'package:todo/app_resources/app_themes/app_themes.dart';
+import 'package:todo/providers/my_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-void main() => runApp(
-      DevicePreview(
-        enabled: !kReleaseMode,
-        builder: (context) => const MyApp(), // Wrap your app
-      ),
-    );
+//import 'package:todo/theme/light_theme.dart';
+//import 'package:todo/theme/theme.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(ChangeNotifierProvider(
+      create: (context) => MyProvider(),
+      child: EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('ar')],
+          path:
+              'assets/translations', // <-- change the path of the translation files
+          fallbackLocale: const Locale('en'),
+          child: const MyApp())));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    AppTheme theme = LightTheme();
+    MyProvider provider = Provider.of<MyProvider>(context);
     return MaterialApp(
-      initialRoute: LetsGoScreen.routeName,
-      routes: {LetsGoScreen.routeName: (context) => const LetsGoScreen()},
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      initialRoute: AppRoutesNames.onboarding,
+      routes: routes,
       debugShowCheckedModeBanner: false,
-      builder: DevicePreview.appBuilder,
+      //builder: DevicePreview.appBuilder,
       useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
+      //locale: DevicePreview.locale(context),
       //builder: DevicePreview.appBuilder,
       title: 'Flutter Demo',
-      theme: theme.themeData,
-      home: Container(),
+      theme: AppThemes.lightTheme,
+      darkTheme: AppThemes.darkTheme,
+      themeMode: provider.themeMode,
     );
   }
 }
