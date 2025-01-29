@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:todo/app_resources/app_colors.dart';
 import 'package:todo/app_resources/app_images_path.dart';
 //import 'package:todo/screens/custom_toggle.dart';
-import 'package:todo/screens/language_switch.dart';
-import 'package:todo/screens/theme_switch.dart';
+import 'package:todo/screens/onboarding/language_switch.dart';
+import 'package:todo/screens/onboarding/theme_switch.dart';
 
 class Onboarding extends StatelessWidget {
   static const routeName = 'lets-go-screen';
@@ -49,8 +48,8 @@ class Onboarding extends StatelessWidget {
                   'language'.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Spacer(),
-                LanguageSwitch()
+                const Spacer(),
+                const LanguageSwitch()
               ],
             ),
             const SizedBox(height: 16),
@@ -60,8 +59,8 @@ class Onboarding extends StatelessWidget {
                   'theme'.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Spacer(),
-                ThemeSwitch(),
+                const Spacer(),
+                const ThemeSwitch(),
               ],
             ),
             const SizedBox(height: 16),

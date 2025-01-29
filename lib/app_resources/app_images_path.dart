@@ -4,4 +4,6 @@ class AppImagesPath {
   static const String companyLogo = 'assets/images/branding.png';
   static const String onboardingAppBarTitleImage =
       'assets/images/onboarding_appBar_title.png';
+      static const String loginLogo = 'assets/images/login_logo.png';
+      static const String googleLogo = 'assets/images/google.png';
 }
