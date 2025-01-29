@@ -1,16 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/app_resources/app_routes_names.dart';
 import 'package:todo/app_resources/app_themes/app_themes.dart';
 import 'package:todo/providers/my_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 //import 'package:todo/theme/light_theme.dart';
 //import 'package:todo/theme/theme.dart';
 
 void main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
+await FirebaseFirestore.instance.disableNetwork();
   runApp(ChangeNotifierProvider(
       create: (context) => MyProvider(),
       child: EasyLocalization(
@@ -26,12 +34,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     MyProvider provider = Provider.of<MyProvider>(context);
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      initialRoute: AppRoutesNames.onboarding,
+      initialRoute: AppRoutesNames.home,
       routes: routes,
       debugShowCheckedModeBanner: false,
       //builder: DevicePreview.appBuilder,
