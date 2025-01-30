@@ -4,6 +4,7 @@ class TaskModel {
   int date;
   bool isDone;
   String category;
+  String userId;
   
  
   String id;
@@ -13,7 +14,8 @@ class TaskModel {
    required this.date,
     this.id='',
    this.isDone = false,
-   required this.category
+   required this.category,
+   required this.userId
  }); 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
     return TaskModel(
@@ -22,7 +24,8 @@ class TaskModel {
       date: json['date'],
       id: json['id'],
       isDone:json['isDone'],
-      category: json['category']
+      category: json['category'],
+      userId: json['userId'],
     );
   }
 
@@ -33,7 +36,8 @@ class TaskModel {
       'date': date,
       'id': id,
       'isDone': isDone,
-      'category': category
+      'category': category,
+      'userId': userId
     };
   }
 }
