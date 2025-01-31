@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo/app_resources/app_colors.dart';
 import 'package:todo/app_resources/app_images_path.dart';
 import 'package:todo/app_resources/app_routes_names.dart';
+import 'package:todo/firebase/firebase_helper.dart';
 import 'package:todo/screens/onboarding/language_switch.dart';
 
 class Login extends StatelessWidget {
@@ -48,7 +49,6 @@ class Login extends StatelessWidget {
                   child: Text(
                     'Forget Password?',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        
                         decoration: TextDecoration.underline,
                         decorationColor: AppColors.primaryColor),
                     textAlign: TextAlign.end,
@@ -60,7 +60,28 @@ class Login extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        FirebaseHelper.login(
+                            emailController.text, passwordController.text,
+                            onSuccess: () {
+                              Navigator.pop(context);
+                          Navigator.pushNamedAndRemoveUntil(context, AppRoutesNames.home,(route) => false);
+                        }, onError: (error) {
+                          Navigator.pop(context);
+                          showDialog(context: context, builder:(context){
+                            return AlertDialog(title: const Text('Error'),
+                              content: Text(error),
+                              actions: [
+                                TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK'))
+                              ],
+                            );
+                          });
+                        }, onLoading: () {
+                          showDialog(context: context, builder:(context){
+                            return const Center(child: CircularProgressIndicator());
+                          });
+                        });
+                      },
                       child: Text('Login',
                           style: Theme.of(context)
                               .textTheme
@@ -76,10 +97,14 @@ class Login extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text('Don\'t have an account?',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(fontWeight: FontWeight.bold)),
                       InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, AppRoutesNames.register);
+                            Navigator.pushNamed(
+                                context, AppRoutesNames.register);
                           },
                           child: Text(
                             'Create Account',
@@ -87,7 +112,6 @@ class Login extends StatelessWidget {
                                 .textTheme
                                 .titleMedium
                                 ?.copyWith(
-                                    
                                     decoration: TextDecoration.underline,
                                     decorationColor: AppColors.primaryColor),
                           ))
@@ -104,7 +128,11 @@ class Login extends StatelessWidget {
                           indent: 10,
                           endIndent: 40,
                           color: AppColors.primaryColor)),
-                  Text('Or', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.primaryColor)),
+                  Text('Or',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: AppColors.primaryColor)),
                   const Expanded(
                       child: Divider(
                           height: 2,
@@ -115,8 +143,10 @@ class Login extends StatelessWidget {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                      side: BorderSide(color: AppColors.primaryColor, width: 1)),
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      side:
+                          BorderSide(color: AppColors.primaryColor, width: 1)),
                   onPressed: () {},
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

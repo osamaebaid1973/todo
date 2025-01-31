@@ -5,13 +5,34 @@ import 'package:todo/firebase/firebase_helper.dart';
 import 'package:todo/models/task_model.dart';
 import 'package:todo/screens/home/tabs/home_tab/event_item.dart';
 
-class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
+class HomeTab extends StatefulWidget {
+   HomeTab({super.key});
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  List<String> eventCategories = [
+    'all',
+    'birthday',
+    'bookClub',
+    'sport',
+    'eating',
+    'exhibition',
+    'gaming',
+    'meeting',
+    'workshop',
+    'other',
+    'holiday'
+  ];
+
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<TaskModel>>(
-      stream: FirebaseHelper.getEvents(),
+      stream: FirebaseHelper.getEvents(eventCategories[selectedIndex]),
       builder: (context, snapshot) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -78,7 +99,55 @@ class HomeTab extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+               const SizedBox(
+                      height: 16,
+                    ),
+                    SizedBox(
+                      height: 40,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: eventCategories.length,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(width: 16);
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                              alignment: Alignment.center,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: selectedIndex == index
+                                      ? AppColors.primaryColor
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(37),
+                                  border: Border.all(
+                                      width: 2, color: AppColors.primaryColor)),
+                              child: GestureDetector(
+                                onTap: () {
+                                  selectedIndex = index;
+                                  
+                                  setState(() {});
+
+                                },
+                                child: Text(
+                                  eventCategories[index],
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(
+                                          color:
+                                              selectedIndex ==
+                                                      index
+                                                  ? Colors.white
+                                                  : AppColors.primaryColor),
+                                ),
+                              ));
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16),
               Expanded(
                 child: ListView.separated(
                   itemCount: snapshot.data?.docs.length ?? 0,

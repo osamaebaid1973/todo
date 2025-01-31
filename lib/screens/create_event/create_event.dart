@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/app_resources/app_colors.dart';
@@ -187,7 +188,8 @@ class CreateEvent extends StatelessWidget {
                     SizedBox(width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          FirebaseHelper.addEvent(TaskModel(
+                          print(FirebaseAuth.instance.currentUser!.uid);
+                          FirebaseHelper.addEvent(TaskModel(userId: FirebaseAuth.instance.currentUser!.uid,
                               title: titleController.text,
                               description: descriptionController.text,
                               date: provider.selectedDate.millisecondsSinceEpoch,
