@@ -18,7 +18,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
 );
-await FirebaseFirestore.instance.disableNetwork();
+await FirebaseFirestore.instance.enableNetwork();
   runApp(ChangeNotifierProvider(
       create: (context) => MyProvider(),
       child: EasyLocalization(
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      initialRoute: AppRoutesNames.home,
+      initialRoute: AppRoutesNames.login,
       routes: routes,
       debugShowCheckedModeBanner: false,
       //builder: DevicePreview.appBuilder,

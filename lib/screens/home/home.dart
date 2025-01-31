@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
 }
 
 List<Widget> tabs = [
-  const HomeTab(),
+   HomeTab(),
   const MapTab(),
   const LoveTab(),
   const ProfileTab()
