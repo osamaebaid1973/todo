@@ -98,4 +98,10 @@ class FirebaseHelper {
       }
     }
   }
+  static Future<UserModel> getUser(String id) async {
+    final user = await collectionReferenceOfUser
+        .doc(id)
+        .get();
+    return user.data()!;
+  }
 }
