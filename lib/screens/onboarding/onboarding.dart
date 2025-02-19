@@ -4,6 +4,7 @@ import 'package:todo/app_resources/app_images_path.dart';
 //import 'package:todo/screens/custom_toggle.dart';
 import 'package:todo/screens/onboarding/language_switch.dart';
 import 'package:todo/screens/onboarding/theme_switch.dart';
+import 'package:todo/app_resources/app_routes_names.dart';
 
 class Onboarding extends StatelessWidget {
   static const routeName = 'lets-go-screen';
@@ -65,7 +66,9 @@ class Onboarding extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(AppRoutesNames.login);
+                },
                 child: Text(
                   "letsStart".tr(),
                   style: Theme.of(context)
